@@ -1,0 +1,28 @@
+SITIO WEB — B.A.P. UNIÓN PUERTAS ABIERTAS MIAMI 2026
+=====================================================
+Repositorio destino: giogz/bap2026-miami
+URL publicada:       https://giogz.github.io/bap2026-miami/
+
+CÓMO SUBIR
+----------
+1. Descomprime este ZIP.
+2. Sube TODOS los archivos y la carpeta img/ a la RAÍZ del repositorio
+   bap2026-miami (no dentro de ninguna subcarpeta).
+3. La estructura final en GitHub debe verse así:
+
+   bap2026-miami/
+   ├── index.html
+   ├── favicon.ico
+   ├── site.webmanifest
+   ├── .nojekyll
+   └── img/  (17 archivos)
+
+4. Si ya existe una carpeta "site" de una subida anterior, BÓRRALA.
+
+DESPUÉS DE SUBIR (importante para WhatsApp/Facebook)
+----------------------------------------------------
+Entra a https://developers.facebook.com/tools/debug/
+Pega:  https://giogz.github.io/bap2026-miami/
+Presiona "Scrape Again" para limpiar el caché de la vista previa.
+
+Developed by Gio
