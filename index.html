@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B.A.P. UNIÓN en Miami — Puertas Abiertas · 15–18 de agosto 2026</title>
+<meta name="description" content="El buque escuela a vela B.A.P. UNIÓN de la Marina de Guerra del Perú visita Miami. Puertas abiertas con ingreso libre del 15 al 18 de agosto de 2026 en el Maurice A. Ferré Park. Consulado General del Perú en Miami.">
+<!-- Open Graph -->
+<meta property="og:title" content="B.A.P. UNIÓN en Miami — Puertas Abiertas">
+<meta property="og:description" content="Ingreso libre · 15–18 de agosto 2026 · Maurice A. Ferré Park, 1075 Biscayne Blvd, Miami. Visita el buque escuela de la Marina de Guerra del Perú.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="img/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="img/logo-consulado.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --rojo:#C8102E;          /* rojo bandera del Perú */
+  --rojo-osc:#9E0B22;
+  --navy:#12365B;
+  --navy-deep:#0C2540;
+  --gold:#C9A227;
+  --paper:#F7F3EC;
+  --ink:#1B2430;
+  --stone:#8B8272;
+  --line:#DCD4C6;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Instrument Sans',system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.55}
+img{display:block;max-width:100%}
+h2{
+  font-family:'Big Shoulders Display',sans-serif;
+  font-weight:700;font-size:clamp(1.6rem,4vw,2.3rem);
+  letter-spacing:.05em;color:var(--ink);
+}
+.section{padding:56px 20px;max-width:1100px;margin:0 auto}
+.kicker{
+  display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.18em;
+  color:var(--rojo);margin-bottom:8px;
+}
+.rule{width:64px;height:4px;background:var(--rojo);margin:14px 0 26px;border-radius:2px}
+
+/* ---------- Barra superior ---------- */
+.topbar{
+  background:#fff;border-bottom:4px solid var(--rojo);
+  padding:10px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px;
+  position:sticky;top:0;z-index:1000;box-shadow:0 1px 8px rgba(0,0,0,.08);
+}
+.topbar img{height:44px;width:auto}
+nav{display:flex;gap:4px;flex-wrap:wrap}
+nav a{
+  text-decoration:none;color:var(--ink);font-size:.8rem;font-weight:600;
+  padding:7px 12px;border-radius:6px;transition:background .15s,color .15s;
+}
+nav a:hover{background:var(--rojo);color:#fff}
+
+/* ---------- Hero ---------- */
+.hero{
+  position:relative;
+  min-height:82vh;min-height:82svh;   /* svh evita el salto de la barra del navegador móvil */
+  display:flex;align-items:center;justify-content:center;
+  background:url('img/hero.jpg') center 38%/cover no-repeat;
+}
+.hero::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(12,37,64,.10) 55%,rgba(12,37,64,.55) 100%);
+}
+.hero h1{
+  position:relative;z-index:2;
+  font-family:'Big Shoulders Display',sans-serif;font-weight:800;color:#fff;
+  font-size:clamp(2.7rem,11vw,6rem);
+  letter-spacing:.06em;line-height:1;text-align:center;padding:0 16px;
+  text-shadow:0 2px 28px rgba(0,0,0,.55);
+}
+@media (max-width:480px){
+  .hero{min-height:64vh;min-height:64svh;background-position:center 30%}
+  .hero h1{letter-spacing:.04em}
+}
+@media (max-width:380px){
+  .hero h1{font-size:2.4rem}
+}
+.btn{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:.86rem;font-weight:700;letter-spacing:.03em;
+  padding:12px 20px;border-radius:8px;text-decoration:none;cursor:pointer;border:none;
+  transition:transform .15s,filter .15s;
+}
+.btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.btn-rojo{background:var(--rojo);color:#fff}
+.btn-blanco{background:#fff;color:var(--navy-deep)}
+.btn-navy{background:var(--navy);color:#fff}
+.btn-borde{background:transparent;color:#fff;border:2px solid #fff}
+
+/* ---------- Franja ingreso libre ---------- */
+.freebar{
+  background:var(--rojo);color:#fff;text-align:center;
+  padding:13px 20px;font-weight:700;letter-spacing:.12em;font-size:.92rem;
+}
+.freebar b{color:#FFE9A8}
+
+/* ---------- Horarios ---------- */
+.horarios{background:#fff}
+.hgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:8px}
+.hcard{
+  border:1px solid var(--line);border-top:5px solid var(--rojo);
+  border-radius:10px;padding:20px 18px;text-align:center;background:var(--paper);
+  transition:transform .15s,box-shadow .15s;
+}
+.hcard:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.1)}
+.hcard .dia{
+  font-family:'Big Shoulders Display',sans-serif;font-weight:700;
+  font-size:2.4rem;color:var(--rojo);line-height:1;
+}
+.hcard .mes{font-size:.74rem;font-weight:700;letter-spacing:.16em;color:var(--stone);margin-top:2px}
+.hcard .sem{font-size:.86rem;font-weight:600;color:var(--navy);margin-top:8px}
+.hcard .hora{
+  margin-top:10px;background:var(--navy);color:#fff;border-radius:6px;
+  padding:8px 6px;font-weight:700;font-size:.95rem;letter-spacing:.03em;
+}
+.notas{margin-top:26px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.nota{
+  background:var(--paper);border-left:4px solid var(--gold);
+  padding:13px 15px;border-radius:0 8px 8px 0;font-size:.86rem;
+}
+.nota b{color:var(--navy)}
+
+/* ---------- Sobre el buque ---------- */
+.sobre{display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:center}
+.sobre p{margin-bottom:14px;font-size:.95rem}
+.sobre .foto{border-radius:12px;overflow:hidden;box-shadow:0 12px 32px rgba(0,0,0,.18)}
+.datos{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
+.dato{background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+.dato b{display:block;font-family:'Big Shoulders Display',sans-serif;font-size:1.3rem;color:var(--rojo);letter-spacing:.03em}
+.dato span{font-size:.72rem;color:var(--stone);letter-spacing:.06em;font-weight:600}
+
+/* ---------- Galería ---------- */
+.galeria{background:var(--navy-deep)}
+.galeria h2,.galeria .kicker{color:#fff}
+.galeria .kicker{color:var(--gold)}
+.ggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:8px}
+.ggrid a{border-radius:10px;overflow:hidden;position:relative;display:block}
+.ggrid img{width:100%;height:280px;object-fit:cover;transition:transform .3s}
+.ggrid a:hover img{transform:scale(1.05)}
+.gwide{grid-column:span 2}
+@media (max-width:560px){.gwide{grid-column:span 1}}
+
+/* ---------- Ubicación / mapa ---------- */
+.ubicacion{background:#fff}
+.mapwrap{
+  display:flex;border:2px solid var(--ink);border-radius:12px;overflow:hidden;
+  height:520px;margin-top:8px;
+}
+#map{flex:1;min-width:0}
+.parkings{width:330px;max-width:44%;overflow-y:auto;border-left:1px solid var(--line);flex:none;background:#fff}
+.p-h{padding:12px 14px;border-bottom:2px solid var(--ink);position:sticky;top:0;background:#fff;z-index:5}
+.p-h h3{font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:.95rem;letter-spacing:.06em}
+.p-h p{font-size:.68rem;color:var(--stone)}
+.card{padding:11px 14px;border-bottom:1px solid var(--line);cursor:pointer;display:flex;gap:10px;transition:background .15s}
+.card:hover,.card.active{background:var(--paper)}
+.num{
+  flex:none;width:26px;height:26px;border-radius:50%;background:var(--rojo);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;
+  border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.25);margin-top:2px;
+}
+.num.anchor{background:var(--navy);border-color:var(--gold)}
+.card h4{font-size:.82rem;font-weight:700;line-height:1.25}
+.card .addr{font-size:.7rem;color:var(--stone);margin:1px 0 4px}
+.meta{display:flex;flex-wrap:wrap;gap:3px 9px;font-size:.7rem}
+.meta b{color:var(--navy)}
+.tagline{display:block;margin-top:4px;font-size:.62rem;font-weight:700;letter-spacing:.04em;color:var(--rojo)}
+.tagline.plain{color:var(--stone);font-weight:500}
+.actions{display:flex;gap:5px;margin-top:7px;flex-wrap:wrap}
+.mbtn{
+  display:inline-flex;align-items:center;gap:4px;font-size:.63rem;font-weight:600;
+  padding:4px 8px;border-radius:5px;text-decoration:none;transition:filter .15s;
+}
+.mbtn:hover{filter:brightness(1.12)}
+.mb-gmaps{background:var(--navy);color:#fff}
+.mb-dir{background:var(--rojo);color:#fff}
+.mb-walk{background:var(--gold);color:var(--navy-deep)}
+.mb-waze{background:#EDE7DA;color:var(--ink);border:1px solid var(--line)}
+.pin{
+  width:28px;height:28px;border-radius:50%;background:var(--rojo);color:#fff;border:2.5px solid #fff;
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;
+  box-shadow:0 2px 6px rgba(0,0,0,.35);font-family:'Instrument Sans',sans-serif;
+}
+.pin.anchor{width:36px;height:36px;background:var(--navy);border-color:var(--gold);font-size:1.05rem}
+.leaflet-popup-content-wrapper{border-radius:8px;font-family:'Instrument Sans',sans-serif}
+.leaflet-popup-content{margin:11px 13px;font-size:.78rem;line-height:1.5;min-width:200px}
+.leaflet-popup-content .pm{color:var(--stone);font-size:.7rem}
+.dir-line{margin-top:18px;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px 18px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;justify-content:space-between}
+.dir-line .d b{font-size:1rem;color:var(--navy)}
+.dir-line .d span{display:block;font-size:.82rem;color:var(--stone)}
+
+/* ---------- Afiche ---------- */
+.afiche{display:grid;grid-template-columns:.8fr 1.2fr;gap:36px;align-items:center}
+.afiche img{border-radius:10px;box-shadow:0 12px 32px rgba(0,0,0,.2)}
+@media (max-width:760px){.sobre,.afiche{grid-template-columns:1fr}}
+
+/* ---------- Footer ---------- */
+footer{background:var(--navy-deep);color:#fff;padding:34px 20px 26px}
+.f-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center}
+.f-logo{background:#fff;border-radius:8px;padding:10px 14px}
+.f-logo img{height:40px}
+.f-info{font-size:.82rem;color:#BFD3E6}
+.f-info a{color:var(--gold);text-decoration:none;font-weight:600}
+.f-flag{display:flex;height:6px;margin-top:26px;max-width:1100px;margin-left:auto;margin-right:auto;border-radius:3px;overflow:hidden}
+.f-flag span{flex:1}
+.f-flag span:nth-child(1),.f-flag span:nth-child(3){background:var(--rojo)}
+.f-flag span:nth-child(2){background:#fff}
+
+/* ---------- Lightbox ---------- */
+.lb{position:fixed;inset:0;background:rgba(12,37,64,.94);display:none;align-items:center;justify-content:center;z-index:2000;padding:24px}
+.lb.open{display:flex}
+.lb img{max-width:94vw;max-height:88vh;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.lb .x{position:absolute;top:16px;right:22px;color:#fff;font-size:2rem;cursor:pointer;background:none;border:none;line-height:1}
+@media (max-width:720px){
+  .mapwrap{flex-direction:column;height:auto}
+  #map{height:340px}
+  .parkings{width:100%;max-width:none;border-left:none;border-top:1px solid var(--line);max-height:360px}
+  nav{display:none}
+}
+
+/* ---------- Afinado móvil ---------- */
+@media (max-width:480px){
+  .section{padding:40px 16px}
+  .topbar img{height:36px}
+  .freebar{font-size:.78rem;letter-spacing:.08em;padding:11px 14px}
+  .hcard .dia{font-size:2rem}
+  .hcard .hora{font-size:.86rem}
+  .dir-line{flex-direction:column;align-items:flex-start}
+  .dir-line .actions{width:100%}
+  .dir-line .btn{flex:1;justify-content:center}
+  .ggrid img{height:220px}
+  .datos{grid-template-columns:1fr 1fr;gap:8px}
+  .dato b{font-size:1.1rem}
+  .f-inner{justify-content:center;text-align:center}
+}
+@media (max-width:380px){
+  .datos{grid-template-columns:1fr}
+  .hgrid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== Barra superior ===== -->
+<div class="topbar">
+  <img src="img/logo-consulado.png" alt="Consulado General del Perú en Miami">
+  <nav>
+    <a href="#horarios">Horarios</a>
+    <a href="#ubicacion">Cómo llegar</a>
+    <a href="#buque">El buque</a>
+    <a href="#galeria">Galería</a>
+  </nav>
+</div>
+
+<!-- ===== Hero ===== -->
+<section class="hero">
+  <h1>B.A.P. UNIÓN</h1>
+</section>
+
+<div class="freebar">INGRESO <b>LIBRE</b> · TODOS LOS DÍAS · NO SE REQUIERE RESERVA</div>
+
+<!-- ===== Horarios ===== -->
+<section class="section horarios" id="horarios">
+  <span class="kicker">HORARIOS DE VISITA</span>
+  <h2>PUERTAS ABIERTAS AL PÚBLICO</h2>
+  <div class="rule"></div>
+  <div class="hgrid">
+    <div class="hcard">
+      <div class="dia">15</div><div class="mes">AGOSTO</div>
+      <div class="sem">Sábado</div>
+      <div class="hora">10:00 – 21:00</div>
+    </div>
+    <div class="hcard">
+      <div class="dia">16</div><div class="mes">AGOSTO</div>
+      <div class="sem">Domingo</div>
+      <div class="hora">08:00 – 21:00</div>
+    </div>
+    <div class="hcard">
+      <div class="dia">17</div><div class="mes">AGOSTO</div>
+      <div class="sem">Lunes</div>
+      <div class="hora">08:00 – 12:00</div>
+    </div>
+    <div class="hcard">
+      <div class="dia">18</div><div class="mes">AGOSTO</div>
+      <div class="sem">Martes</div>
+      <div class="hora">08:00 – 12:00</div>
+    </div>
+  </div>
+  <div class="notas">
+    <div class="nota"><b>⚓ Llegada del buque:</b> sábado 15 de agosto, 8:00 a.m. — ¡acompáñenos a recibirlo desde el parque!</div>
+    <div class="nota"><b>⏱ Recomendación:</b> llegue con 45–60 minutos de anticipación; el acceso y los estacionamientos tienen alta demanda.</div>
+    <div class="nota"><b>👨‍👩‍👧 Evento familiar:</b> abierto a todo público. Se recomienda ropa ligera, gorra y bloqueador solar.</div>
+  </div>
+</section>
+
+<!-- ===== Ubicación y estacionamientos ===== -->
+<section class="section ubicacion" id="ubicacion">
+  <span class="kicker">CÓMO LLEGAR</span>
+  <h2>UBICACIÓN Y ESTACIONAMIENTOS</h2>
+  <div class="rule"></div>
+  <div class="dir-line">
+    <div class="d">
+      <b>⚓ Muelle del Maurice A. Ferré Park</b>
+      <span>1075 Biscayne Blvd, Miami, FL 33132 · junto al Frost Museum of Science</span>
+    </div>
+    <div class="actions">
+      <a class="btn btn-navy" style="font-size:.78rem;padding:9px 14px" target="_blank" rel="noopener"
+         href="https://www.google.com/maps/search/?api=1&query=Maurice+A.+Ferr%C3%A9+Park+Miami&query_place_id=ChIJtaM_HB602YgRWEIQVSrIQnY">Ver en Google Maps</a>
+      <a class="btn btn-rojo" style="font-size:.78rem;padding:9px 14px" target="_blank" rel="noopener"
+         href="https://www.google.com/maps/dir/?api=1&destination=Maurice+A.+Ferr%C3%A9+Park+Miami&destination_place_id=ChIJtaM_HB602YgRWEIQVSrIQnY">Cómo llegar</a>
+    </div>
+  </div>
+  <div class="mapwrap">
+    <div id="map" role="application" aria-label="Mapa de estacionamientos"></div>
+    <div class="parkings" aria-label="Lista de estacionamientos">
+      <div class="p-h">
+        <h3>ESTACIONAMIENTOS CERCANOS</h3>
+        <p>Distancias a pie desde el muelle · toque una tarjeta</p>
+      </div>
+      <div id="cards"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Sobre el buque ===== -->
+<section class="section" id="buque">
+  <div class="sobre">
+    <div>
+      <span class="kicker">MARINA DE GUERRA DEL PERÚ</span>
+      <h2>EL BUQUE ESCUELA A VELA MÁS GRANDE DE LATINOAMÉRICA</h2>
+      <div class="rule"></div>
+      <p>El <b>B.A.P. UNIÓN (BEV-161)</b> es el buque escuela a vela de la Marina de Guerra del Perú, orgullo nacional y embajador itinerante de la cultura peruana en los puertos del mundo. Es el velero de instrucción naval más grande de Latinoamérica y el segundo más grande del mundo. En él se forman los futuros oficiales de la Marina, navegando con las técnicas clásicas de la vela cuadra.</p>
+      <p>Su nombre rinde homenaje a la corbeta <i>Unión</i>, que sirvió con honor en la Guerra del Pacífico, y su mascarón de proa representa al Inca Túpac Yupanqui, recordando la tradición navegante del antiguo Perú.</p>
+      <p>Durante su escala en Miami, el público podrá recorrer sus cubiertas, conocer a su tripulación y vivir de cerca la tradición naval peruana.</p>
+      <div class="datos">
+        <div class="dato"><b>115.75 m</b><span>ESLORA TOTAL</span></div>
+        <div class="dato"><b>4 mástiles</b><span>APAREJO TIPO BRICBARCA</span></div>
+        <div class="dato"><b>3,402 m²</b><span>SUPERFICIE VÉLICA · 34 VELAS</span></div>
+        <div class="dato"><b>~250</b><span>TRIPULANTES Y CADETES</span></div>
+      </div>
+    </div>
+    <div class="foto"><img src="img/g1.jpg" alt="B.A.P. UNIÓN navegando con la bandera del Perú"></div>
+  </div>
+</section>
+
+<!-- ===== Galería ===== -->
+<section class="galeria" id="galeria">
+  <div class="section">
+    <span class="kicker">GALERÍA</span>
+    <h2>EL UNIÓN EN ALTA MAR</h2>
+    <div class="rule"></div>
+    <div class="ggrid">
+      <a href="img/hero.jpg" class="gwide"><img src="img/hero.jpg" alt="B.A.P. UNIÓN a toda vela con bandera peruana"></a>
+      <a href="img/g2.jpg"><img src="img/g2.jpg" alt="Popa del B.A.P. UNIÓN con el pabellón nacional"></a>
+      <a href="img/g3.jpg"><img src="img/g3.jpg" alt="Tripulación rindiendo honores sobre las vergas"></a>
+      <a href="img/g4.jpg" class="gwide"><img src="img/g4.jpg" alt="B.A.P. UNIÓN fondeado bajo cielo azul"></a>
+      <a href="img/g5.jpg"><img src="img/g5.jpg" alt="Perfil del B.A.P. UNIÓN a toda vela"></a>
+      <a href="img/g6.jpg"><img src="img/g6.jpg" alt="B.A.P. UNIÓN de proa con bandera del Perú"></a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Afiche oficial ===== -->
+<section class="section">
+  <div class="afiche">
+    <a href="img/afiche.jpg" target="_blank"><img src="img/afiche.jpg" alt="Afiche oficial del evento B.A.P. UNIÓN Puertas Abiertas Miami"></a>
+    <div>
+      <span class="kicker">DIFUSIÓN</span>
+      <h2>COMPARTE EL EVENTO</h2>
+      <div class="rule"></div>
+      <p style="margin-bottom:16px">Descarga el afiche oficial y compártelo con tu familia, amigos y comunidad. Esta es una oportunidad única de conocer por dentro al emblemático buque escuela de la Marina de Guerra del Perú, sin costo alguno.</p>
+      <div class="actions" style="gap:10px">
+        <a class="btn btn-rojo" href="img/afiche.jpg" download="BAP-Union-Miami-2026.jpg">Descargar afiche</a>
+        <a class="btn btn-navy" href="mailto:eventos@consulado-peru.com?subject=Consulta%20-%20B.A.P.%20UNION%20Puertas%20Abiertas%20Miami">Contacto del evento</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer>
+  <div class="f-inner">
+    <div class="f-logo"><img src="img/logo-consulado.png" alt="Consulado General del Perú en Miami"></div>
+    <div class="f-info">
+      B.A.P. UNIÓN · Puertas Abiertas Miami · 15–18 de agosto de 2026<br>
+      Maurice A. Ferré Park, 1075 Biscayne Blvd, Miami, FL 33132<br>
+      Consultas: <a href="mailto:eventos@consulado-peru.com?subject=Consulta%20-%20B.A.P.%20UNION%20Puertas%20Abiertas%20Miami">eventos@consulado-peru.com</a>
+    </div>
+  </div>
+  <div class="f-flag" aria-hidden="true"><span></span><span></span><span></span></div>
+  <div style="text-align:center;margin-top:16px;font-size:.72rem;color:#7E9BB8;letter-spacing:.08em">
+    Developed by Gio <span style="color:#C8102E">❤️</span>
+  </div>
+</footer>
+
+<!-- ===== Lightbox ===== -->
+<div class="lb" id="lb" role="dialog" aria-label="Vista ampliada de fotografía">
+  <button class="x" aria-label="Cerrar">&times;</button>
+  <img src="" alt="Fotografía del B.A.P. UNIÓN">
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+/* ===== Datos reales (verificados en Google Places) ===== */
+const PLACES = [
+  {n:"⚓", anchor:true, lat:25.7843583, lng:-80.1871918,
+   name:"Muelle — Maurice A. Ferré Park",
+   addr:"1075 Biscayne Blvd, Miami, FL 33132",
+   walk:null, price:null, hours:"Parque: 7 a.m. – 10 p.m.",
+   tag:"Punto de llegada del B.A.P. UNIÓN", tagClass:"",
+   gq:"Maurice A. Ferré Park Miami", pid:"ChIJtaM_HB602YgRWEIQVSrIQnY"},
+  {n:"1", lat:25.7859253, lng:-80.1870513,
+   name:"Frost Museum of Science Parking",
+   addr:"1101 Biscayne Blvd, Miami, FL 33132",
+   walk:"1–2 min", price:"US$18 tarifa plana", hours:"10 a.m. – 6 p.m.",
+   tag:"RECOMENDACIÓN Nº 1 · La más cercana", tagClass:"",
+   gq:"Phillip and Patricia Frost Museum of Science Parking Miami", pid:"ChIJdfi2eAC12YgRbxmchnvcfIE"},
+  {n:"2", lat:25.7834576, lng:-80.1882241,
+   name:"Baywalk Parking",
+   addr:"801 Biscayne Blvd, Miami, FL 33132",
+   walk:"3–5 min", price:"US$20–30 según demanda", hours:"24 horas",
+   tag:"RECOMENDACIÓN Nº 2 · Si el museo está lleno", tagClass:"",
+   gq:"Baywalk Parking 801 Biscayne Blvd Miami", pid:"ChIJ-UbcQQC32YgRgJU6GHrnQhE"},
+  {n:"3", lat:25.7769362, lng:-80.1906272,
+   name:"College Station Parking Garage",
+   addr:"190 NE 3rd St, Miami, FL 33132",
+   walk:"10–12 min", price:"US$10–15 aprox.", hours:"24 horas",
+   tag:"RECOMENDACIÓN Nº 3 · Económica, gran capacidad", tagClass:"",
+   gq:"College Station Parking Garage 190 NE 3rd St Miami", pid:"ChIJ46M0-Z622YgRUVLQaBwmaeU"},
+  {n:"4", lat:25.7828702, lng:-80.1908621,
+   name:"Miami Worldcenter Block D Garage",
+   addr:"888 NE 2nd Ave, Miami, FL 33132",
+   walk:"12–15 min", price:"Desde US$18", hours:"24 horas",
+   tag:"Fácil acceso desde la I-395", tagClass:"plain",
+   gq:"Miami Worldcenter Block D Garage 888 NE 2nd Ave", pid:"ChIJjSz7REW32YgRJ3uUM_zCExQ"},
+  {n:"5", lat:25.779689, lng:-80.1878384,
+   name:"Bayside Marketplace Garage",
+   addr:"401 Biscayne Blvd, Miami, FL 33132",
+   walk:"12–15 min", price:"US$20–30 aprox.", hours:"24 horas",
+   tag:"Ideal si visitará Bayside Marketplace", tagClass:"plain",
+   gq:"Bayside Marketplace Parking 401 Biscayne Blvd Miami", pid:"ChIJmW-cWSC02YgRWKfpLN-ho1c"}
+];
+
+const PARK_Q="Maurice A. Ferré Park Miami", PARK_ID="ChIJtaM_HB602YgRWEIQVSrIQnY";
+const gmapsView=p=>`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.gq)}&query_place_id=${p.pid}`;
+const gmapsDir =p=>`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(p.gq)}&destination_place_id=${p.pid}`;
+const gmapsWalk=p=>`https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(PARK_Q)}&origin_place_id=${PARK_ID}&destination=${encodeURIComponent(p.gq)}&destination_place_id=${p.pid}&travelmode=walking`;
+const wazeLink =p=>`https://waze.com/ul?ll=${p.lat}%2C${p.lng}&navigate=yes`;
+
+const actionsHTML=p=>`
+  <div class="actions">
+    <a class="mbtn mb-gmaps" href="${gmapsView(p)}" target="_blank" rel="noopener">📍 Google Maps</a>
+    <a class="mbtn mb-dir" href="${gmapsDir(p)}" target="_blank" rel="noopener">🧭 Cómo llegar</a>
+    ${!p.anchor?`<a class="mbtn mb-walk" href="${gmapsWalk(p)}" target="_blank" rel="noopener">🚶 A pie desde el parque</a>`:''}
+    <a class="mbtn mb-waze" href="${wazeLink(p)}" target="_blank" rel="noopener">Waze</a>
+  </div>`;
+
+const map=L.map('map',{scrollWheelZoom:false});
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,
+  attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
+map.on('click',()=>map.scrollWheelZoom.enable());
+
+const markers={}, cardsEl=document.getElementById('cards'), anchor=PLACES[0];
+PLACES.forEach((p,i)=>{
+  if(!p.anchor) L.polyline([[p.lat,p.lng],[anchor.lat,anchor.lng]],
+    {color:'#C8102E',weight:1.5,dashArray:'3 6',opacity:.55}).addTo(map);
+  const icon=L.divIcon({className:'',html:`<div class="pin ${p.anchor?'anchor':''}">${p.n}</div>`,
+    iconSize:[p.anchor?36:28,p.anchor?36:28],iconAnchor:[p.anchor?18:14,p.anchor?18:14]});
+  const rows=[
+    p.walk ?`🚶 <b>${p.walk} a pie</b> desde el muelle`:null,
+    p.price?`💲 ${p.price}`:null,
+    p.hours?`🕒 ${p.hours}`:null
+  ].filter(Boolean).join('<br>');
+  const m=L.marker([p.lat,p.lng],{icon,title:p.name,zIndexOffset:p.anchor?1000:0}).addTo(map)
+    .bindPopup(`<b>${p.n==="⚓"?"⚓ ":p.n+". "}${p.name}</b><br><span class="pm">${p.addr}</span><br>${rows}${actionsHTML(p)}`,{maxWidth:270});
+  markers[i]=m;
+
+  const card=document.createElement('div');
+  card.className='card';card.setAttribute('role','button');card.setAttribute('tabindex','0');
+  card.innerHTML=`
+    <div class="num ${p.anchor?'anchor':''}">${p.n}</div>
+    <div>
+      <h4>${p.name}</h4>
+      <div class="addr">${p.addr}</div>
+      <div class="meta">
+        ${p.walk ?`<span>🚶 <b>${p.walk}</b></span>`:''}
+        ${p.price?`<span>💲 ${p.price}</span>`:''}
+        ${p.hours?`<span>🕒 ${p.hours}</span>`:''}
+      </div>
+      <span class="tagline ${p.tagClass}">${p.tag}</span>
+      ${actionsHTML(p)}
+    </div>`;
+  const go=()=>{
+    document.querySelectorAll('.card').forEach(c=>c.classList.remove('active'));
+    card.classList.add('active');
+    map.flyTo([p.lat,p.lng],17,{duration:.6});
+    m.openPopup();
+  };
+  card.addEventListener('click',e=>{if(!e.target.closest('a'))go();});
+  card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}});
+  cardsEl.appendChild(card);
+});
+
+/* La vista SIEMPRE empieza centrada en el Maurice A. Ferré Park */
+map.setView([anchor.lat,anchor.lng],16);
+markers[0].openPopup();
+
+/* Botón para volver al muelle */
+const HomeCtl=L.Control.extend({options:{position:'topleft'},
+  onAdd(){
+    const b=L.DomUtil.create('a','leaflet-bar');
+    b.href='#';b.title='Volver al Maurice A. Ferré Park';
+    b.setAttribute('aria-label','Volver al Maurice A. Ferré Park');
+    b.style.cssText='background:#12365B;color:#C9A227;width:32px;height:32px;line-height:32px;text-align:center;font-size:16px;display:block;border-radius:4px;';
+    b.innerHTML='⚓';
+    L.DomEvent.on(b,'click',e=>{L.DomEvent.preventDefault(e);
+      map.flyTo([anchor.lat,anchor.lng],16,{duration:.6});markers[0].openPopup();});
+    return b;
+  }});
+map.addControl(new HomeCtl());
+
+/* ===== Lightbox de galería ===== */
+const lb=document.getElementById('lb'), lbImg=lb.querySelector('img');
+document.querySelectorAll('.ggrid a, .afiche > a').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    lbImg.src=a.getAttribute('href');
+    lb.classList.add('open');
+  });
+});
+lb.addEventListener('click',()=>lb.classList.remove('open'));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')lb.classList.remove('open');});
+</script>
+</body>
+</html>
