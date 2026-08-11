@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B.A.P. UNIÓN en Miami — Puertas Abiertas · 15–19 de agosto 2026</title>
+<meta name="description" content="El buque escuela a vela B.A.P. UNIÓN de la Marina de Guerra del Perú visita Miami. Puertas abiertas con ingreso libre del 15 al 19 de agosto de 2026 en el Maurice A. Ferré Park. Consulado General del Perú en Miami.">
+<meta name="theme-color" content="#C8102E">
+<!-- Open Graph (WhatsApp, Facebook, LinkedIn, iMessage) -->
+<meta property="og:site_name" content="Consulado General del Perú en Miami">
+<meta property="og:title" content="⚓ B.A.P. UNIÓN llega a Miami — Puertas Abiertas">
+<meta property="og:description" content="¡Visita gratis el velero de instrucción más grande de Latinoamérica! Del 15 al 19 de agosto en el Maurice A. Ferré Park. Sube a bordo, conoce a la tripulación y vive la tradición naval del Perú. Ingreso libre 🇵🇪">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://giogz.github.io/bap2026-miami/">
+<meta property="og:image" content="https://giogz.github.io/bap2026-miami/img/social-card.jpg">
+<meta property="og:image:secure_url" content="https://giogz.github.io/bap2026-miami/img/social-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="B.A.P. UNIÓN a toda vela con la bandera del Perú — Puertas Abiertas Miami, 15–19 de agosto 2026">
+<meta property="og:locale" content="es_US">
+<meta property="og:locale:alternate" content="en_US">
+<!-- Twitter / X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="⚓ B.A.P. UNIÓN llega a Miami — Puertas Abiertas">
+<meta name="twitter:description" content="Visita gratis el velero de instrucción más grande de Latinoamérica. 15–19 de agosto · Maurice A. Ferré Park · Ingreso libre 🇵🇪">
+<meta name="twitter:image" content="https://giogz.github.io/bap2026-miami/img/social-card.jpg">
+<!-- Favicon e iconos -->
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --rojo:#C8102E;          /* rojo bandera del Perú */
+  --rojo-osc:#9E0B22;
+  --navy:#12365B;
+  --navy-deep:#0C2540;
+  --gold:#C9A227;
+  --paper:#F7F3EC;
+  --ink:#1B2430;
+  --stone:#8B8272;
+  --line:#DCD4C6;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Instrument Sans',system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.55}
+img{display:block;max-width:100%}
+h2{
+  font-family:'Big Shoulders Display',sans-serif;
+  font-weight:700;font-size:clamp(1.6rem,4vw,2.3rem);
+  letter-spacing:.05em;color:var(--ink);
+}
+.section{padding:56px 20px;max-width:1100px;margin:0 auto}
+.kicker{
+  display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.18em;
+  color:var(--rojo);margin-bottom:8px;
+}
+.rule{width:64px;height:4px;background:var(--rojo);margin:14px 0 26px;border-radius:2px}
+
+/* ---------- Barra superior ---------- */
+.topbar{
+  background:#fff;border-bottom:4px solid var(--rojo);
+  padding:10px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px;
+  position:sticky;top:0;z-index:1000;box-shadow:0 1px 8px rgba(0,0,0,.08);
+}
+.topbar img{height:44px;width:auto}
+nav{display:flex;gap:4px;flex-wrap:wrap}
+nav a{
+  text-decoration:none;color:var(--ink);font-size:.8rem;font-weight:600;
+  padding:7px 12px;border-radius:6px;transition:background .15s,color .15s;
+}
+nav a:hover{background:var(--rojo);color:#fff}
+
+/* ---------- Hero ---------- */
+.hero{
+  position:relative;overflow:hidden;
+  min-height:82vh;min-height:82svh;
+  display:flex;align-items:flex-end;justify-content:center;
+  background:var(--navy-deep);
+}
+.hero .slide{
+  position:absolute;inset:0;
+  background-position:center center;
+  background-size:cover;
+  background-repeat:no-repeat;
+  opacity:0;transition:opacity 1.6s ease-in-out;
+}
+.hero .slide.on{opacity:1}
+.hero::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(12,37,64,.10) 0%,rgba(12,37,64,0) 40%,rgba(12,37,64,.72) 100%);
+}
+.hero h1{
+  position:relative;z-index:2;
+  font-family:'Big Shoulders Display',sans-serif;font-weight:800;color:#fff;
+  font-size:clamp(2.7rem,11vw,6rem);
+  letter-spacing:.06em;line-height:1;text-align:center;
+  padding:0 16px 42px;
+  text-shadow:0 2px 26px rgba(0,0,0,.6);
+}
+.hero .dots{
+  position:absolute;z-index:3;bottom:18px;left:0;right:0;
+  display:flex;gap:8px;justify-content:center;
+}
+.hero .dots button{
+  width:8px;height:8px;border-radius:50%;padding:0;cursor:pointer;
+  background:rgba(255,255,255,.42);border:none;transition:background .3s,transform .3s;
+}
+.hero .dots button.on{background:#fff;transform:scale(1.35)}
+@media (max-width:480px){
+  .hero{min-height:64vh;min-height:64svh}
+  .hero h1{letter-spacing:.04em;padding-bottom:46px}
+}
+@media (max-width:380px){
+  .hero h1{font-size:2.4rem}
+}
+@media (prefers-reduced-motion:reduce){
+  .hero .slide{transition:none}
+}
+.btn{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:.86rem;font-weight:700;letter-spacing:.03em;
+  padding:12px 20px;border-radius:8px;text-decoration:none;cursor:pointer;border:none;
+  transition:transform .15s,filter .15s;
+}
+.btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.btn-rojo{background:var(--rojo);color:#fff}
+.btn-blanco{background:#fff;color:var(--navy-deep)}
+.btn-navy{background:var(--navy);color:#fff}
+.btn-borde{background:transparent;color:#fff;border:2px solid #fff}
+
+/* ---------- Franja ingreso libre ---------- */
+.freebar{
+  background:var(--rojo);color:#fff;text-align:center;
+  padding:13px 20px;font-weight:700;letter-spacing:.12em;font-size:.92rem;
+}
+.freebar b{color:#FFE9A8}
+
+/* ---------- Horarios ---------- */
+.horarios{background:#fff}
+.hgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:8px}
+.hcard{
+  border:1px solid var(--line);border-top:5px solid var(--rojo);
+  border-radius:10px;padding:20px 18px;text-align:center;background:var(--paper);
+  transition:transform .15s,box-shadow .15s;
+}
+.hcard:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.1)}
+.hcard .dia{
+  font-family:'Big Shoulders Display',sans-serif;font-weight:700;
+  font-size:2.4rem;color:var(--rojo);line-height:1;
+}
+.hcard .mes{font-size:.74rem;font-weight:700;letter-spacing:.16em;color:var(--stone);margin-top:2px}
+.hcard .sem{font-size:.86rem;font-weight:600;color:var(--navy);margin-top:8px}
+.hcard .hora{
+  margin-top:10px;background:var(--navy);color:#fff;border-radius:6px;
+  padding:8px 6px;font-weight:700;font-size:.95rem;letter-spacing:.03em;
+}
+.notas{margin-top:26px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.nota{
+  background:var(--paper);border-left:4px solid var(--gold);
+  padding:13px 15px;border-radius:0 8px 8px 0;font-size:.86rem;
+}
+.nota b{color:var(--navy)}
+
+/* ---------- Sobre el buque ---------- */
+.sobre{display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:center}
+.sobre p{margin-bottom:14px;font-size:.95rem}
+.sobre .foto{border-radius:12px;overflow:hidden;box-shadow:0 12px 32px rgba(0,0,0,.18)}
+.datos{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
+.dato{background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+.dato b{display:block;font-family:'Big Shoulders Display',sans-serif;font-size:1.3rem;color:var(--rojo);letter-spacing:.03em}
+.dato span{font-size:.72rem;color:var(--stone);letter-spacing:.06em;font-weight:600}
+
+/* ---------- Galería ---------- */
+.galeria{background:var(--navy-deep)}
+.galeria h2,.galeria .kicker{color:#fff}
+.galeria .kicker{color:var(--gold)}
+.ggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:8px}
+.ggrid a{border-radius:10px;overflow:hidden;position:relative;display:block}
+.ggrid img{width:100%;height:280px;object-fit:cover;transition:transform .3s}
+.ggrid a:hover img{transform:scale(1.05)}
+.gwide{grid-column:span 2}
+@media (max-width:560px){.gwide{grid-column:span 1}}
+
+/* ---------- Ubicación / mapa ---------- */
+.ubicacion{background:#fff}
+.mapwrap{
+  display:flex;border:2px solid var(--ink);border-radius:12px;overflow:hidden;
+  height:520px;margin-top:8px;
+}
+#map{flex:1;min-width:0}
+.parkings{width:330px;max-width:44%;overflow-y:auto;border-left:1px solid var(--line);flex:none;background:#fff}
+.p-h{padding:12px 14px;border-bottom:2px solid var(--ink);position:sticky;top:0;background:#fff;z-index:5}
+.p-h h3{font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:.95rem;letter-spacing:.06em}
+.p-h p{font-size:.68rem;color:var(--stone)}
+.card{padding:11px 14px;border-bottom:1px solid var(--line);cursor:pointer;display:flex;gap:10px;transition:background .15s}
+.card:hover,.card.active{background:var(--paper)}
+.num{
+  flex:none;width:26px;height:26px;border-radius:50%;background:var(--rojo);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;
+  border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.25);margin-top:2px;
+}
+.num.anchor{background:var(--navy);border-color:var(--gold)}
+.card h4{font-size:.82rem;font-weight:700;line-height:1.25}
+.card .addr{font-size:.7rem;color:var(--stone);margin:1px 0 4px}
+.meta{display:flex;flex-wrap:wrap;gap:3px 9px;font-size:.7rem}
+.meta b{color:var(--navy)}
+.tagline{display:block;margin-top:4px;font-size:.62rem;font-weight:700;letter-spacing:.04em;color:var(--rojo)}
+.tagline.plain{color:var(--stone);font-weight:500}
+.actions{display:flex;gap:5px;margin-top:7px;flex-wrap:wrap}
+.mbtn{
+  display:inline-flex;align-items:center;gap:4px;font-size:.63rem;font-weight:600;
+  padding:4px 8px;border-radius:5px;text-decoration:none;transition:filter .15s;
+}
+.mbtn:hover{filter:brightness(1.12)}
+.mb-gmaps{background:var(--navy);color:#fff}
+.mb-dir{background:var(--rojo);color:#fff}
+.mb-walk{background:var(--gold);color:var(--navy-deep)}
+.mb-waze{background:#EDE7DA;color:var(--ink);border:1px solid var(--line)}
+.pin{
+  width:28px;height:28px;border-radius:50%;background:var(--rojo);color:#fff;border:2.5px solid #fff;
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;
+  box-shadow:0 2px 6px rgba(0,0,0,.35);font-family:'Instrument Sans',sans-serif;
+}
+.pin.anchor{width:36px;height:36px;background:var(--navy);border-color:var(--gold);font-size:1.05rem}
+.leaflet-popup-content-wrapper{border-radius:8px;font-family:'Instrument Sans',sans-serif}
+.leaflet-popup-content{margin:11px 13px;font-size:.78rem;line-height:1.5;min-width:200px}
+.leaflet-popup-content .pm{color:var(--stone);font-size:.7rem}
+.dir-line{margin-top:18px;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px 18px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;justify-content:space-between}
+.dir-line .d b{font-size:1rem;color:var(--navy)}
+.dir-line .d span{display:block;font-size:.82rem;color:var(--stone)}
+
+/* ---------- Afiche ---------- */
+.afiche{display:grid;grid-template-columns:.8fr 1.2fr;gap:36px;align-items:center}
+.afiche img{border-radius:10px;box-shadow:0 12px 32px rgba(0,0,0,.2)}
+@media (max-width:760px){.sobre,.afiche{grid-template-columns:1fr}}
+
+/* ---------- Footer ---------- */
+footer{background:var(--navy-deep);color:#fff;padding:34px 20px 26px}
+.f-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center}
+.f-logo{background:#fff;border-radius:8px;padding:10px 14px}
+.f-logo img{height:40px}
+.f-info{font-size:.82rem;color:#BFD3E6}
+.f-info a{color:var(--gold);text-decoration:none;font-weight:600}
+.f-flag{display:flex;height:6px;margin-top:26px;max-width:1100px;margin-left:auto;margin-right:auto;border-radius:3px;overflow:hidden}
+.f-flag span{flex:1}
+.f-flag span:nth-child(1),.f-flag span:nth-child(3){background:var(--rojo)}
+.f-flag span:nth-child(2){background:#fff}
+
+/* ---------- Lightbox ---------- */
+.lb{position:fixed;inset:0;background:rgba(12,37,64,.94);display:none;align-items:center;justify-content:center;z-index:2000;padding:24px}
+.lb.open{display:flex}
+.lb img{max-width:94vw;max-height:88vh;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.lb .x{position:absolute;top:16px;right:22px;color:#fff;font-size:2rem;cursor:pointer;background:none;border:none;line-height:1}
+@media (max-width:720px){
+  .mapwrap{flex-direction:column;height:auto}
+  #map{height:340px}
+  .parkings{width:100%;max-width:none;border-left:none;border-top:1px solid var(--line);max-height:360px}
+  nav{display:none}
+}
+
+/* ---------- Afinado móvil ---------- */
+@media (max-width:480px){
+  .section{padding:40px 16px}
+  .topbar img{height:36px}
+  .freebar{font-size:.78rem;letter-spacing:.08em;padding:11px 14px}
+  .hcard .dia{font-size:2rem}
+  .hcard .hora{font-size:.86rem}
+  .dir-line{flex-direction:column;align-items:flex-start}
+  .dir-line .actions{width:100%}
+  .dir-line .btn{flex:1;justify-content:center}
+  .ggrid img{height:220px}
+  .datos{grid-template-columns:1fr 1fr;gap:8px}
+  .dato b{font-size:1.1rem}
+  .f-inner{justify-content:center;text-align:center}
+}
+@media (max-width:380px){
+  .datos{grid-template-columns:1fr}
+  .hgrid{grid-template-columns:1fr 1fr}
+}
+
+/* ---------- Selector de idioma ---------- */
+.langsel{display:flex;border:1.5px solid var(--line);border-radius:8px;overflow:hidden;flex:none}
+.langsel button{
+  background:#fff;border:none;cursor:pointer;font-family:inherit;
+  font-size:.74rem;font-weight:700;letter-spacing:.06em;color:var(--stone);
+  padding:7px 11px;transition:background .15s,color .15s;
+}
+.langsel button.on{background:var(--rojo);color:#fff}
+.langsel button:not(.on):hover{background:var(--paper);color:var(--ink)}
+
+
+/* ---------- Aviso de entrada única ---------- */
+.aviso{
+  margin-top:24px;background:#FFF6F7;border:1.5px solid #F0C4CB;border-left:5px solid var(--rojo);
+  border-radius:0 10px 10px 0;padding:16px 20px;display:flex;gap:14px;align-items:flex-start;
+}
+.aviso .ic{font-size:1.5rem;line-height:1;flex:none}
+.aviso b{color:var(--rojo);display:block;margin-bottom:3px;font-size:.9rem;letter-spacing:.02em}
+.aviso p{font-size:.87rem;color:var(--ink)}
+
+/* ---------- Sección Recibimiento ---------- */
+.recib{background:var(--navy-deep);color:#fff}
+.recib h2{color:#fff}
+.recib .kicker{color:var(--gold)}
+.recib .rule{background:var(--gold)}
+.recib-grid{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:center}
+.recib p{font-size:.95rem;color:#D9E4F0;margin-bottom:14px}
+.recib .foto{border-radius:12px;overflow:hidden;box-shadow:0 14px 40px rgba(0,0,0,.4)}
+.recib .foto img{width:100%;height:100%;object-fit:cover}
+.cuando{
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);
+  border-radius:10px;padding:16px 18px;margin:20px 0;
+}
+.cuando .lbl{font-size:.66rem;font-weight:700;letter-spacing:.16em;color:var(--gold)}
+.cuando .val{font-family:'Big Shoulders Display',sans-serif;font-size:1.6rem;font-weight:700;letter-spacing:.03em;margin-top:2px}
+.cuando .sub{font-size:.8rem;color:#BFD3E6;margin-top:4px}
+.tips{list-style:none;display:grid;gap:9px;margin-top:4px}
+.tips li{font-size:.86rem;color:#D9E4F0;padding-left:26px;position:relative}
+.tips li::before{content:"⚓";position:absolute;left:0;color:var(--gold);font-size:.9rem}
+@media (max-width:760px){.recib-grid{grid-template-columns:1fr}}
+@media (max-width:480px){
+  .recib .foto img{max-height:280px}
+  .aviso{padding:14px 15px}
+}
+
+/* ---------- Horarios: 5 días en móvil (2+2+1 a lo ancho) ---------- */
+@media (max-width:560px){
+  .hgrid{grid-template-columns:1fr 1fr}
+  .hcard:nth-child(5){grid-column:1 / -1}
+  .hcard{padding:16px 12px}
+  .hcard .dia{font-size:2.1rem}
+}
+
+/* ---------- Menú superior en celular: visible y deslizable ---------- */
+@media (max-width:720px){
+  .topbar{flex-wrap:wrap;padding:9px 14px 7px;gap:10px}
+  .topbar img{order:1}
+  .langsel{order:2}
+  nav{
+    display:flex;flex-wrap:nowrap;order:3;width:100%;
+    overflow-x:auto;gap:3px;padding-bottom:2px;
+    scrollbar-width:none;-webkit-overflow-scrolling:touch;
+  }
+  nav::-webkit-scrollbar{display:none}
+  nav a{font-size:.74rem;padding:6px 10px;white-space:nowrap;flex:none}
+}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <img src="img/logo-consulado.png" alt="Consulado General del Perú en Miami">
+  <nav>
+    <a href="#horarios" data-es="Horarios" data-en="Schedule">Horarios</a>
+      <a href="#recibimiento" data-es="Recibimiento" data-en="Arrival">Recibimiento</a>
+      <a href="#ubicacion" data-es="Cómo llegar" data-en="Getting there">Cómo llegar</a>
+      <a href="#buque" data-es="El buque" data-en="The ship">El buque</a>
+      <a href="#galeria" data-es="Galería" data-en="Gallery">Galería</a>
+  </nav>
+  <div class="langsel" role="group" aria-label="Idioma / Language">
+    <button id="b-es" class="on" onclick="setLang('es')">ES</button>
+    <button id="b-en" onclick="setLang('en')">EN</button>
+  </div>
+</div>
+
+<section class="hero" id="hero">
+  <div class="slide on" style="background-image:url('img/hero1.jpg')"></div>
+  <div class="slide" style="background-image:url('img/hero2.jpg')"></div>
+  <div class="slide" style="background-image:url('img/hero3.jpg')"></div>
+  <h1>B.A.P. UNIÓN</h1>
+  <div class="dots" id="dots" role="tablist" aria-label="Fotografías del buque"></div>
+</section>
+
+<div class="freebar" data-es="INGRESO &lt;b&gt;LIBRE&lt;/b&gt; · TODOS LOS DÍAS" data-en="&lt;b&gt;FREE&lt;/b&gt; ADMISSION · EVERY DAY">INGRESO <b>LIBRE</b> · TODOS LOS DÍAS</div>
+<section class="section horarios" id="horarios">
+  <h2 data-es="HORARIOS DE VISITA" data-en="VISITING HOURS">HORARIOS DE VISITA</h2>
+  <div class="rule"></div>
+  <div class="hgrid">
+    <div class="hcard">
+      <div class="dia">15</div>
+      <div class="mes" data-es="AGOSTO" data-en="AUGUST">AGOSTO</div>
+      <div class="sem" data-es="Sábado" data-en="Saturday">Sábado</div>
+      <div class="hora">10:00 – 20:00</div>
+    </div>
+    <div class="hcard">
+      <div class="dia">16</div>
+      <div class="mes" data-es="AGOSTO" data-en="AUGUST">AGOSTO</div>
+      <div class="sem" data-es="Domingo" data-en="Sunday">Domingo</div>
+      <div class="hora">08:00 – 21:00</div>
+    </div>
+    <div class="hcard">
+      <div class="dia">17</div>
+      <div class="mes" data-es="AGOSTO" data-en="AUGUST">AGOSTO</div>
+      <div class="sem" data-es="Lunes" data-en="Monday">Lunes</div>
+      <div class="hora">08:00 – 12:00</div>
+    </div>
+    <div class="hcard">
+      <div class="dia">18</div>
+      <div class="mes" data-es="AGOSTO" data-en="AUGUST">AGOSTO</div>
+      <div class="sem" data-es="Martes" data-en="Tuesday">Martes</div>
+      <div class="hora">08:00 – 12:00</div>
+    </div>
+    <div class="hcard">
+      <div class="dia">19</div>
+      <div class="mes" data-es="AGOSTO" data-en="AUGUST">AGOSTO</div>
+      <div class="sem" data-es="Miércoles" data-en="Wednesday">Miércoles</div>
+      <div class="hora">08:00 – 21:00</div>
+    </div>
+  </div>
+</section>
+<section class="recib" id="recibimiento">
+  <div class="section">
+    <span class="kicker" data-es="NO SE LO PIERDA" data-en="NOT TO BE MISSED">NO SE LO PIERDA</span>
+    <h2 data-es="EL RECIBIMIENTO DEL BUQUE" data-en="WELCOMING THE SHIP">EL RECIBIMIENTO DEL BUQUE</h2>
+    <div class="rule"></div>
+    <div class="recib-grid">
+      <div>
+        <p data-es="La llegada del B.A.P. UNIÓN a puerto es, por sí sola, un espectáculo que vale la pena presenciar. Al entrar a la bahía, los cadetes ascienden a las vergas y permanecen formados a lo largo de los mástiles en la maniobra tradicional conocida como &lt;b&gt;“marinería a la vista”&lt;/b&gt;, mientras el pabellón nacional ondea desde la popa." data-en="The arrival of the B.A.P. UNIÓN in port is a spectacle worth witnessing in its own right. As she enters the bay, the cadets climb aloft and stand in formation along the yards in the traditional manoeuvre known as &lt;b&gt;“manning the yards”&lt;/b&gt;, while the national ensign flies from the stern.">La llegada del B.A.P. UNIÓN a puerto es, por sí sola, un espectáculo que vale la pena presenciar. Al entrar a la bahía, los cadetes ascienden a las vergas y permanecen formados a lo largo de los mástiles en la maniobra tradicional conocida como <b>“marinería a la vista”</b>, mientras el pabellón nacional ondea desde la popa.</p>
+        <p data-es="Es el momento más fotografiado de cada escala: el velero avanzando lentamente sobre la bahía de Biscayne, con el perfil de Miami de fondo y la bandera del Perú desplegada al viento. Un instante breve que no se repite una vez que el buque queda atracado." data-en="It is the most photographed moment of every port call: the tall ship gliding slowly across Biscayne Bay, with the Miami skyline behind her and the Peruvian flag unfurled in the wind. A brief moment that is not repeated once the ship is moored.">Es el momento más fotografiado de cada escala: el velero avanzando lentamente sobre la bahía de Biscayne, con el perfil de Miami de fondo y la bandera del Perú desplegada al viento. Un instante breve que no se repite una vez que el buque queda atracado.</p>
+        <div class="cuando">
+          <div class="lbl" data-es="LLEGADA DEL BUQUE" data-en="SHIP ARRIVAL">LLEGADA DEL BUQUE</div>
+          <div class="val" data-es="Sábado 15 de agosto · 8:00 a.m." data-en="Saturday, August 15 · 8:00 a.m.">Sábado 15 de agosto · 8:00 a.m.</div>
+          <div class="sub" data-es="Las puertas se abren al público a partir de las 10:00 a.m." data-en="Doors open to the public from 10:00 a.m.">Las puertas se abren al público a partir de las 10:00 a.m.</div>
+        </div>
+      </div>
+      <div class="foto"><img src="img/g3.jpg" alt="Cadetes del B.A.P. UNIÓN formados sobre las vergas durante la entrada a puerto"></div>
+    </div>
+  </div>
+</section>
+<section class="section ubicacion" id="ubicacion">
+  <span class="kicker" data-es="CÓMO LLEGAR" data-en="GETTING THERE">CÓMO LLEGAR</span>
+  <h2 data-es="UBICACIÓN Y ESTACIONAMIENTOS" data-en="LOCATION AND PARKING">UBICACIÓN Y ESTACIONAMIENTOS</h2>
+  <div class="rule"></div>
+  <div class="dir-line">
+    <div class="d">
+      <b data-es="⚓ Muelle del Maurice A. Ferré Park" data-en="⚓ Pier at Maurice A. Ferré Park">⚓ Muelle del Maurice A. Ferré Park</b>
+      <span data-es="1075 Biscayne Blvd, Miami, FL 33132 · junto al Frost Museum of Science" data-en="1075 Biscayne Blvd, Miami, FL 33132 · next to the Frost Museum of Science">1075 Biscayne Blvd, Miami, FL 33132 · junto al Frost Museum of Science</span>
+    </div>
+    <div class="actions">
+      <a class="btn btn-navy" style="font-size:.78rem;padding:9px 14px" target="_blank" rel="noopener"
+         href="https://www.google.com/maps/search/?api=1&query=Maurice+A.+Ferr%C3%A9+Park+Miami&query_place_id=ChIJtaM_HB602YgRWEIQVSrIQnY"
+         data-es="Ver en Google Maps" data-en="View on Google Maps">Ver en Google Maps</a>
+      <a class="btn btn-rojo" style="font-size:.78rem;padding:9px 14px" target="_blank" rel="noopener"
+         href="https://www.google.com/maps/dir/?api=1&destination=Maurice+A.+Ferr%C3%A9+Park+Miami&destination_place_id=ChIJtaM_HB602YgRWEIQVSrIQnY"
+         data-es="Cómo llegar" data-en="Get directions">Cómo llegar</a>
+    </div>
+  </div>
+  <div class="mapwrap">
+    <div id="map" role="application" aria-label="Mapa de estacionamientos"></div>
+    <div class="parkings" aria-label="Lista de estacionamientos">
+      <div class="p-h">
+        <h3 data-es="ESTACIONAMIENTOS CERCANOS" data-en="NEARBY PARKING">ESTACIONAMIENTOS CERCANOS</h3>
+        <p data-es="Distancias a pie desde el muelle · toque una tarjeta" data-en="Walking distances from the pier · tap a card">Distancias a pie desde el muelle · toque una tarjeta</p>
+      </div>
+      <div id="cards"></div>
+    </div>
+  </div>
+</section>
+<section class="section" id="buque">
+  <div class="sobre">
+    <div>
+      <span class="kicker" data-es="MARINA DE GUERRA DEL PERÚ" data-en="PERUVIAN NAVY">MARINA DE GUERRA DEL PERÚ</span>
+      <h2 data-es="EL BUQUE ESCUELA A VELA MÁS GRANDE DE LATINOAMÉRICA" data-en="THE LARGEST SAIL TRAINING SHIP IN LATIN AMERICA">EL BUQUE ESCUELA A VELA MÁS GRANDE DE LATINOAMÉRICA</h2>
+      <div class="rule"></div>
+      <p data-es="El &lt;b&gt;B.A.P. UNIÓN (BEV-161)&lt;/b&gt; es el buque escuela a vela de la Marina de Guerra del Perú, orgullo nacional y embajador itinerante de la cultura peruana en los puertos del mundo. Es el velero de instrucción naval más grande de Latinoamérica y el segundo más grande del mundo. En él se forman los futuros oficiales de la Marina, navegando con las técnicas clásicas de la vela cuadra." data-en="The &lt;b&gt;B.A.P. UNIÓN (BEV-161)&lt;/b&gt; is the sail training ship of the Peruvian Navy, a source of national pride and a travelling ambassador of Peruvian culture in ports around the world. She is the largest naval sail training vessel in Latin America and the second largest in the world. On board, future naval officers are trained using the classic techniques of square rig sailing.">El <b>B.A.P. UNIÓN (BEV-161)</b> es el buque escuela a vela de la Marina de Guerra del Perú, orgullo nacional y embajador itinerante de la cultura peruana en los puertos del mundo. Es el velero de instrucción naval más grande de Latinoamérica y el segundo más grande del mundo. En él se forman los futuros oficiales de la Marina, navegando con las técnicas clásicas de la vela cuadra.</p>
+      <p data-es="Su nombre rinde homenaje a la corbeta &lt;i&gt;Unión&lt;/i&gt;, que sirvió con honor en la Guerra del Pacífico, y su mascarón de proa representa al Inca Túpac Yupanqui, en recuerdo de la tradición navegante del antiguo Perú." data-en="Her name honours the corvette &lt;i&gt;Unión&lt;/i&gt;, which served with distinction in the War of the Pacific, and her figurehead depicts the Inca Túpac Yupanqui, recalling the seafaring tradition of ancient Peru.">Su nombre rinde homenaje a la corbeta <i>Unión</i>, que sirvió con honor en la Guerra del Pacífico, y su mascarón de proa representa al Inca Túpac Yupanqui, en recuerdo de la tradición navegante del antiguo Perú.</p>
+      <p data-es="Durante su escala en Miami, el público podrá recorrer sus cubiertas, conocer a su tripulación y vivir de cerca la tradición naval peruana." data-en="During her call in Miami, the public will be able to walk her decks, meet the crew and experience Peruvian naval tradition first hand.">Durante su escala en Miami, el público podrá recorrer sus cubiertas, conocer a su tripulación y vivir de cerca la tradición naval peruana.</p>
+      <div class="datos">
+        <div class="dato"><b>115.75 m</b><span data-es="ESLORA TOTAL" data-en="LENGTH OVERALL">ESLORA TOTAL</span></div>
+        <div class="dato"><b data-es="4 mástiles" data-en="4 masts">4 mástiles</b><span data-es="APAREJO TIPO BRICBARCA" data-en="BARQUE RIG">APAREJO TIPO BRICBARCA</span></div>
+        <div class="dato"><b>3,402 m²</b><span data-es="SUPERFICIE VÉLICA · 34 VELAS" data-en="SAIL AREA · 34 SAILS">SUPERFICIE VÉLICA · 34 VELAS</span></div>
+        <div class="dato"><b>~250</b><span data-es="TRIPULANTES Y CADETES" data-en="CREW AND CADETS">TRIPULANTES Y CADETES</span></div>
+      </div>
+    </div>
+    <div class="foto"><img src="img/g1.jpg" alt="B.A.P. UNIÓN navegando con la bandera del Perú"></div>
+  </div>
+</section>
+<section class="galeria" id="galeria">
+  <div class="section">
+    <span class="kicker" data-es="GALERÍA" data-en="GALLERY">GALERÍA</span>
+    <h2 data-es="EL UNIÓN EN ALTA MAR" data-en="THE UNIÓN AT SEA">EL UNIÓN EN ALTA MAR</h2>
+    <div class="rule"></div>
+    <div class="ggrid">
+      <a href="img/hero.jpg" class="gwide"><img src="img/hero.jpg" alt="B.A.P. UNIÓN a toda vela con bandera peruana"></a>
+      <a href="img/g2.jpg"><img src="img/g2.jpg" alt="Popa del B.A.P. UNIÓN con el pabellón nacional"></a>
+      <a href="img/g6.jpg"><img src="img/g6.jpg" alt="B.A.P. UNIÓN de proa con la bandera del Perú"></a>
+      <a href="img/g4.jpg" class="gwide"><img src="img/g4.jpg" alt="B.A.P. UNIÓN fondeado bajo cielo azul"></a>
+      <a href="img/g5.jpg"><img src="img/g5.jpg" alt="Perfil del B.A.P. UNIÓN a toda vela"></a>
+      <a href="img/g3.jpg"><img src="img/g3.jpg" alt="Tripulación rindiendo honores sobre las vergas"></a>
+    </div>
+  </div>
+</section>
+<section class="section">
+  <div class="afiche">
+    <a href="img/afiche-es.jpg" id="afiche-link" target="_blank"><img src="img/afiche-es.jpg" id="afiche-img" alt="Afiche oficial del evento B.A.P. UNIÓN Puertas Abiertas Miami"></a>
+    <div>
+      <span class="kicker" data-es="DIFUSIÓN" data-en="SPREAD THE WORD">DIFUSIÓN</span>
+      <h2 data-es="COMPARTE EL EVENTO" data-en="SHARE THE EVENT">COMPARTE EL EVENTO</h2>
+      <div class="rule"></div>
+      <p style="margin-bottom:16px" data-es="Descarga el afiche oficial y compártelo con tu familia, amigos y comunidad. Esta es una oportunidad única de conocer por dentro el emblemático buque escuela de la Marina de Guerra del Perú, sin costo alguno." data-en="Download the official poster and share it with your family, friends and community. This is a unique opportunity to step aboard the emblematic sail training ship of the Peruvian Navy, free of charge.">Descarga el afiche oficial y compártelo con tu familia, amigos y comunidad. Esta es una oportunidad única de conocer por dentro el emblemático buque escuela de la Marina de Guerra del Perú, sin costo alguno.</p>
+      <div class="actions" style="gap:10px">
+        <a class="btn btn-rojo" id="afiche-dl" href="img/afiche-es.jpg" download="BAP-Union-Miami-2026-ES.jpg" data-es="Descargar afiche" data-en="Download poster">Descargar afiche</a>
+        <a class="btn btn-navy" href="mailto:eventos@consulado-peru.com?subject=Consulta%20-%20B.A.P.%20UNION%20Puertas%20Abiertas%20Miami" data-es="Contacto del evento" data-en="Event contact">Contacto del evento</a>
+      </div>
+    </div>
+  </div>
+</section>
+<footer>
+  <div class="f-inner">
+    <div class="f-logo"><img src="img/logo-consulado.png" alt="Consulado General del Perú en Miami"></div>
+    <div class="f-info">
+      <span data-es="B.A.P. UNIÓN · Puertas Abiertas Miami · 15–19 de agosto de 2026" data-en="B.A.P. UNIÓN · Open House Miami · August 15–19, 2026">B.A.P. UNIÓN · Puertas Abiertas Miami · 15–19 de agosto de 2026</span><br>
+      <span data-es="&lt;b style=&quot;color:#fff&quot;&gt;Sede del evento:&lt;/b&gt; Maurice A. Ferré Park, 1075 Biscayne Blvd, Miami, FL 33132" data-en="&lt;b style=&quot;color:#fff&quot;&gt;Event venue:&lt;/b&gt; Maurice A. Ferré Park, 1075 Biscayne Blvd, Miami, FL 33132"><b style="color:#fff">Sede del evento:</b> Maurice A. Ferré Park, 1075 Biscayne Blvd, Miami, FL 33132</span><br>
+      <span style="display:inline-block;margin-top:4px;font-size:.75rem;color:#8FA9C4" data-es="&lt;i&gt;Esta dirección corresponde únicamente al evento y no es la sede del Consulado General del Perú en Miami.&lt;/i&gt;" data-en="&lt;i&gt;This address is for the event only and is not the office of the Consulate General of Peru in Miami.&lt;/i&gt;"><i>Esta dirección corresponde únicamente al evento y no es la sede del Consulado General del Perú en Miami.</i></span><br>
+      <span data-es="Consultas: &lt;a href=&quot;mailto:eventos@consulado-peru.com?subject=Consulta%20-%20B.A.P.%20UNION%20Puertas%20Abiertas%20Miami&quot;&gt;eventos@consulado-peru.com&lt;/a&gt;" data-en="Enquiries: &lt;a href=&quot;mailto:eventos@consulado-peru.com?subject=Consulta%20-%20B.A.P.%20UNION%20Puertas%20Abiertas%20Miami&quot;&gt;eventos@consulado-peru.com&lt;/a&gt;">Consultas: <a href="mailto:eventos@consulado-peru.com?subject=Consulta%20-%20B.A.P.%20UNION%20Puertas%20Abiertas%20Miami">eventos@consulado-peru.com</a></span>
+    </div>
+  </div>
+  <div class="f-flag" aria-hidden="true"><span></span><span></span><span></span></div>
+  <div style="text-align:center;margin-top:16px;font-size:.72rem;color:#7E9BB8;letter-spacing:.08em">
+    Developed by Gio <span style="color:#C8102E">❤️</span>
+  </div>
+</footer>
+
+<div class="lb" id="lb" role="dialog" aria-label="Vista ampliada de fotografía">
+  <button class="x" aria-label="Cerrar">&times;</button>
+  <img src="" alt="Fotografía del B.A.P. UNIÓN">
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+/* ================= ESTADO GLOBAL ================= */
+var map = null, markers = {};
+
+/* ================= IDIOMA ================= */
+var LANG = (navigator.language || 'es').toLowerCase().indexOf('en') === 0 ? 'en' : 'es';
+function setLang(l){
+  LANG = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-es]').forEach(function(el){
+    var v = el.getAttribute('data-' + l);
+    if (v !== null) el.innerHTML = v;
+  });
+  document.getElementById('b-es').classList.toggle('on', l === 'es');
+  document.getElementById('b-en').classList.toggle('on', l === 'en');
+  var af = 'img/afiche-' + l + '.jpg';
+  var aImg = document.getElementById('afiche-img');
+  var aLink = document.getElementById('afiche-link');
+  var aDl = document.getElementById('afiche-dl');
+  if (aImg)  aImg.src = af;
+  if (aLink) aLink.href = af;
+  if (aDl) {
+    aDl.href = af;
+    aDl.setAttribute('download', 'BAP-Union-Miami-2026-' + l.toUpperCase() + '.jpg');
+  }
+  document.title = (l === 'en')
+    ? 'B.A.P. UNIÓN in Miami — Open House · August 15–19, 2026'
+    : 'B.A.P. UNIÓN en Miami — Puertas Abiertas · 15–19 de agosto 2026';
+  renderParkings();
+}
+
+/* ================= DATOS DE ESTACIONAMIENTOS ================= */
+var PLACES = [
+  {n:"⚓", anchor:true, lat:25.7843583, lng:-80.1871918,
+   name:{es:"Muelle — Maurice A. Ferré Park", en:"Pier — Maurice A. Ferré Park"},
+   addr:"1075 Biscayne Blvd, Miami, FL 33132",
+   walk:null, price:null,
+   hours:{es:"Parque: 7 a.m. – 10 p.m.", en:"Park: 7 a.m. – 10 p.m."},
+   tag:{es:"Punto de llegada del B.A.P. UNIÓN", en:"Arrival point of the B.A.P. UNIÓN"}, plain:true,
+   gq:"Maurice A. Ferré Park Miami", pid:"ChIJtaM_HB602YgRWEIQVSrIQnY"},
+  {n:"1", lat:25.7859253, lng:-80.1870513,
+   name:{es:"Frost Museum of Science Parking", en:"Frost Museum of Science Parking"},
+   addr:"1101 Biscayne Blvd, Miami, FL 33132",
+   walk:{es:"1–2 min", en:"1–2 min"},
+   price:{es:"US$18 tarifa plana", en:"US$18 flat rate"},
+   hours:{es:"10 a.m. – 6 p.m.", en:"10 a.m. – 6 p.m."},
+   tag:{es:"La opción más cercana al muelle", en:"Closest option to the pier"}, plain:true,
+   gq:"Phillip and Patricia Frost Museum of Science Parking Miami", pid:"ChIJdfi2eAC12YgRbxmchnvcfIE"},
+  {n:"2", lat:25.7834576, lng:-80.1882241,
+   name:{es:"Baywalk Parking", en:"Baywalk Parking"},
+   addr:"801 Biscayne Blvd, Miami, FL 33132",
+   walk:{es:"3–5 min", en:"3–5 min"},
+   price:{es:"US$20–30 según demanda", en:"US$20–30 depending on demand"},
+   hours:{es:"24 horas", en:"24 hours"},
+   tag:{es:"Alternativa si el museo está lleno", en:"Alternative if the museum lot is full"}, plain:true,
+   gq:"Baywalk Parking 801 Biscayne Blvd Miami", pid:"ChIJ-UbcQQC32YgRgJU6GHrnQhE"},
+  {n:"3", lat:25.7769362, lng:-80.1906272,
+   name:{es:"College Station Parking Garage", en:"College Station Parking Garage"},
+   addr:"190 NE 3rd St, Miami, FL 33132",
+   walk:{es:"10–12 min", en:"10–12 min"},
+   price:{es:"US$10–15 aprox.", en:"US$10–15 approx."},
+   hours:{es:"24 horas", en:"24 hours"},
+   tag:{es:"Económica, gran capacidad", en:"Affordable, high capacity"}, plain:true,
+   gq:"College Station Parking Garage 190 NE 3rd St Miami", pid:"ChIJ46M0-Z622YgRUVLQaBwmaeU"},
+  {n:"4", lat:25.7828702, lng:-80.1908621,
+   name:{es:"Miami Worldcenter Block D Garage", en:"Miami Worldcenter Block D Garage"},
+   addr:"888 NE 2nd Ave, Miami, FL 33132",
+   walk:{es:"12–15 min", en:"12–15 min"},
+   price:{es:"Desde US$18", en:"From US$18"},
+   hours:{es:"24 horas", en:"24 hours"},
+   tag:{es:"Fácil acceso desde la I-395", en:"Easy access from I-395"}, plain:true,
+   gq:"Miami Worldcenter Block D Garage 888 NE 2nd Ave", pid:"ChIJjSz7REW32YgRJ3uUM_zCExQ"},
+  {n:"5", lat:25.779689, lng:-80.1878384,
+   name:{es:"Bayside Marketplace Garage", en:"Bayside Marketplace Garage"},
+   addr:"401 Biscayne Blvd, Miami, FL 33132",
+   walk:{es:"12–15 min", en:"12–15 min"},
+   price:{es:"US$20–30 aprox.", en:"US$20–30 approx."},
+   hours:{es:"24 horas", en:"24 hours"},
+   tag:{es:"Ideal si visitará Bayside Marketplace", en:"Ideal if you also visit Bayside Marketplace"}, plain:true,
+   gq:"Bayside Marketplace Parking 401 Biscayne Blvd Miami", pid:"ChIJmW-cWSC02YgRWKfpLN-ho1c"}
+];
+
+var UI = {
+  gmaps:  {es:"📍 Google Maps",             en:"📍 Google Maps"},
+  dir:    {es:"🧭 Cómo llegar",             en:"🧭 Directions"},
+  walk:   {es:"🚶 A pie desde el parque",   en:"🚶 Walk from the park"},
+  waze:   {es:"Waze",                       en:"Waze"},
+  fromPier:{es:"a pie desde el muelle",     en:"walk from the pier"},
+  home:   {es:"Volver al Maurice A. Ferré Park", en:"Back to Maurice A. Ferré Park"}
+};
+
+var PARK_Q = "Maurice A. Ferré Park Miami", PARK_ID = "ChIJtaM_HB602YgRWEIQVSrIQnY";
+function gmapsView(p){ return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(p.gq) + "&query_place_id=" + p.pid; }
+function gmapsDir(p){  return "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(p.gq) + "&destination_place_id=" + p.pid; }
+function gmapsWalk(p){ return "https://www.google.com/maps/dir/?api=1&origin=" + encodeURIComponent(PARK_Q) + "&origin_place_id=" + PARK_ID + "&destination=" + encodeURIComponent(p.gq) + "&destination_place_id=" + p.pid + "&travelmode=walking"; }
+function wazeLink(p){  return "https://waze.com/ul?ll=" + p.lat + "%2C" + p.lng + "&navigate=yes"; }
+
+function actionsHTML(p){
+  return '<div class="actions">' +
+    '<a class="mbtn mb-gmaps" href="' + gmapsView(p) + '" target="_blank" rel="noopener">' + UI.gmaps[LANG] + '</a>' +
+    '<a class="mbtn mb-dir" href="' + gmapsDir(p) + '" target="_blank" rel="noopener">' + UI.dir[LANG] + '</a>' +
+    (!p.anchor ? '<a class="mbtn mb-walk" href="' + gmapsWalk(p) + '" target="_blank" rel="noopener">' + UI.walk[LANG] + '</a>' : '') +
+    '<a class="mbtn mb-waze" href="' + wazeLink(p) + '" target="_blank" rel="noopener">' + UI.waze[LANG] + '</a>' +
+  '</div>';
+}
+
+/* El idioma se aplica de inmediato, sin depender del mapa */
+setLang(LANG);
+
+/* ================= MAPA (degradación elegante si el CDN falla) ================= */
+if (typeof L === 'undefined') {
+  document.getElementById('map').innerHTML =
+    '<div style="height:100%;min-height:300px;display:flex;flex-direction:column;gap:12px;' +
+    'align-items:center;justify-content:center;text-align:center;padding:24px;background:#EFE9DE;color:#1B2430">' +
+    '<div style="font-size:2rem">🗺️</div><div style="font-size:.85rem;max-width:280px">' +
+    (LANG === 'en' ? 'The interactive map could not be loaded. Use the buttons below to open each location.'
+                   : 'No se pudo cargar el mapa interactivo. Use los botones para abrir cada ubicación.') +
+    '</div></div>';
+} else {
+  map = L.map('map', {scrollWheelZoom:false});
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:19,
+    attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
+  map.on('click', function(){ map.scrollWheelZoom.enable(); });
+  PLACES.forEach(function(p, i){
+    if (!p.anchor) L.polyline([[p.lat,p.lng],[PLACES[0].lat,PLACES[0].lng]],
+      {color:'#C8102E', weight:1.5, dashArray:'3 6', opacity:.55}).addTo(map);
+    var icon = L.divIcon({className:'',
+      html:'<div class="pin ' + (p.anchor?'anchor':'') + '">' + p.n + '</div>',
+      iconSize:[p.anchor?36:28, p.anchor?36:28], iconAnchor:[p.anchor?18:14, p.anchor?18:14]});
+    markers[i] = L.marker([p.lat,p.lng], {icon:icon, zIndexOffset:p.anchor?1000:0}).addTo(map);
+  });
+}
+var anchor = PLACES[0];
+
+function popupHTML(p){
+  var rows = [];
+  if (p.walk)  rows.push('🚶 <b>' + p.walk[LANG] + '</b> ' + UI.fromPier[LANG]);
+  if (p.price) rows.push('💲 ' + p.price[LANG]);
+  if (p.hours) rows.push('🕒 ' + p.hours[LANG]);
+  return '<b>' + (p.anchor ? '⚓ ' : p.n + '. ') + p.name[LANG] + '</b><br>' +
+         '<span class="pm">' + p.addr + '</span><br>' + rows.join('<br>') + actionsHTML(p);
+}
+
+function renderParkings(){
+  var el = document.getElementById('cards');
+  el.innerHTML = '';
+  PLACES.forEach(function(p, i){
+    if (markers[i]) markers[i].bindPopup(popupHTML(p), {maxWidth:270});
+    var meta = '';
+    if (p.walk)  meta += '<span>🚶 <b>' + p.walk[LANG] + '</b></span>';
+    if (p.price) meta += '<span>💲 ' + p.price[LANG] + '</span>';
+    if (p.hours) meta += '<span>🕒 ' + p.hours[LANG] + '</span>';
+    var card = document.createElement('div');
+    card.className = 'card';
+    card.setAttribute('role','button');
+    card.setAttribute('tabindex','0');
+    card.innerHTML =
+      '<div class="num ' + (p.anchor?'anchor':'') + '">' + p.n + '</div>' +
+      '<div><h4>' + p.name[LANG] + '</h4>' +
+      '<div class="addr">' + p.addr + '</div>' +
+      '<div class="meta">' + meta + '</div>' +
+      '<span class="tagline ' + (p.plain?'plain':'') + '">' + p.tag[LANG] + '</span>' +
+      actionsHTML(p) + '</div>';
+    function go(){
+      document.querySelectorAll('.card').forEach(function(c){ c.classList.remove('active'); });
+      card.classList.add('active');
+      if (map && markers[i]) { map.flyTo([p.lat,p.lng], 17, {duration:.6}); markers[i].openPopup(); }
+    }
+    card.addEventListener('click', function(e){ if (!e.target.closest('a')) go(); });
+    card.addEventListener('keydown', function(e){
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); }
+    });
+    el.appendChild(card);
+  });
+}
+
+/* La vista SIEMPRE empieza en el Maurice A. Ferré Park */
+if (map) {
+map.setView([anchor.lat, anchor.lng], 16);
+
+var HomeCtl = L.Control.extend({
+  options:{position:'topleft'},
+  onAdd: function(){
+    var b = L.DomUtil.create('a','leaflet-bar');
+    b.href = '#';
+    b.title = UI.home[LANG];
+    b.setAttribute('aria-label', UI.home[LANG]);
+    b.style.cssText = 'background:#12365B;color:#C9A227;width:32px;height:32px;line-height:32px;text-align:center;font-size:16px;display:block;border-radius:4px;';
+    b.innerHTML = '⚓';
+    L.DomEvent.on(b, 'click', function(e){
+      L.DomEvent.preventDefault(e);
+      map.flyTo([anchor.lat, anchor.lng], 16, {duration:.6});
+      markers[0].openPopup();
+    });
+    return b;
+  }
+});
+map.addControl(new HomeCtl());
+}
+
+/* ================= HERO ROTATIVO ================= */
+(function(){
+  var slides = document.querySelectorAll('.hero .slide');
+  var dotsEl = document.getElementById('dots');
+  if (!slides.length || !dotsEl) return;
+  var idx = 0, timer = null;
+  slides.forEach(function(s, i){
+    var d = document.createElement('button');
+    d.type = 'button';
+    d.setAttribute('aria-label', 'Foto ' + (i+1));
+    if (i === 0) d.className = 'on';
+    d.addEventListener('click', function(){ show(i); restart(); });
+    dotsEl.appendChild(d);
+  });
+  var dots = dotsEl.querySelectorAll('button');
+  function show(i){
+    idx = i;
+    slides.forEach(function(s, k){ s.classList.toggle('on', k === i); });
+    dots.forEach(function(d, k){ d.classList.toggle('on', k === i); });
+  }
+  function next(){ show((idx + 1) % slides.length); }
+  function restart(){ clearInterval(timer); timer = setInterval(next, 6000); }
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) restart();
+  document.addEventListener('visibilitychange', function(){
+    if (document.hidden) clearInterval(timer); else restart();
+  });
+})();
+
+/* ================= LIGHTBOX ================= */
+var lb = document.getElementById('lb'), lbImg = lb.querySelector('img');
+document.querySelectorAll('.ggrid a, .afiche > a').forEach(function(a){
+  a.addEventListener('click', function(e){
+    e.preventDefault();
+    lbImg.src = a.getAttribute('href');
+    lb.classList.add('open');
+  });
+});
+lb.addEventListener('click', function(){ lb.classList.remove('open'); });
+document.addEventListener('keydown', function(e){ if (e.key === 'Escape') lb.classList.remove('open'); });
+
+/* ================= INICIO ================= */
+renderParkings();
+if (markers[0]) markers[0].openPopup();
+</script>
+</body>
+</html>
