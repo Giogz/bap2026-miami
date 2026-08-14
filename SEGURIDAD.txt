@@ -1,0 +1,69 @@
+SEGURIDAD DEL SITIO — LO QUE SE HIZO Y LO QUE NO ES POSIBLE
+============================================================
+
+SOBRE "ENCRIPTAR EL CODIGO"
+---------------------------
+Hay que decirlo con claridad: NO existe forma de cifrar el codigo de
+una pagina web. El navegador del visitante necesita leer el HTML, el
+CSS y el JavaScript para poder mostrarla; por lo tanto, cualquier
+persona puede verlos con "Ver codigo fuente" o F12. Esto es igual en
+Google, Amazon o cualquier banco.
+
+Lo que SI se hizo:
+  - MINIFICACION: el codigo se comprimio (nombres cortos, sin espacios
+    ni comentarios). Queda practicamente ilegible para alguien casual
+    y ademas pesa 17% menos, asi que carga mas rapido. La copia
+    legible para editar queda fuera del repositorio.
+
+Lo que NO conviene hacer:
+  - OFUSCACION PESADA (tipo javascript-obfuscator): multiplica el peso
+    del archivo por 3 o 4, hace la pagina mas lenta, puede romper
+    funciones, algunos antivirus la marcan como sospechosa y aun asi
+    se revierte en minutos con herramientas gratuitas. Contradice el
+    objetivo de que el sitio sea rapido.
+
+LO IMPORTANTE: EL SITIO NO GUARDA NADA SECRETO
+-----------------------------------------------
+No hay contrasenas, ni claves de API, ni base de datos, ni panel de
+administracion. Es un sitio estatico. Aunque alguien lea todo el
+codigo, no obtiene nada aprovechable ni puede modificar el sitio: para
+eso necesitaria acceso a su cuenta de GitHub.
+
+MEDIDAS APLICADAS
+-----------------
+1. Content-Security-Policy: el navegador solo acepta recursos de este
+   mismo sitio, los mapas de OpenStreetMap y los reels de Instagram.
+   Si alguien lograra inyectar un script externo, el navegador lo
+   bloquea.
+2. Sin dependencias de terceros: Leaflet y las tipografias ahora se
+   sirven desde el propio sitio (carpetas lib/ y fonts/). Antes venian
+   de cdnjs y Google Fonts; si esos servicios fueran comprometidos,
+   podian ejecutar codigo en la pagina. Ya no.
+3. object-src 'none' y base-uri 'self': cierran dos vias clasicas de
+   inyeccion.
+4. form-action 'none': no hay formularios; nada puede enviarse a otro
+   servidor.
+5. Enlaces externos con rel="noopener noreferrer": la pagina de
+   destino no puede manipular la pestana de origen.
+6. El nombre que escribe el visitante se limpia: solo letras, numeros
+   y signos simples, maximo 28 caracteres. Evita inyeccion de codigo.
+7. Referrer-Policy strict-origin-when-cross-origin.
+8. El Worker del contador (si lo publica) solo acepta peticiones desde
+   giogz.github.io, valida el dia y limita a 5 confirmaciones por IP
+   cada 10 minutos.
+
+LO QUE GITHUB PAGES NO PERMITE
+-------------------------------
+GitHub Pages no deja definir cabeceras HTTP propias, por lo que no se
+pueden aplicar: Strict-Transport-Security, X-Frame-Options ni
+frame-ancestors. GitHub ya sirve todo por HTTPS, asi que el riesgo es
+bajo. Si mas adelante quiere esas cabeceras, publique el sitio en
+Cloudflare Pages o Netlify (ambos gratuitos) y se agregan en un
+archivo _headers.
+
+QUE PROTEGER DE VERDAD
+-----------------------
+El punto realmente sensible no es el codigo, es su cuenta:
+  - Active la verificacion en dos pasos en GitHub.
+  - No comparta el token de acceso del repositorio.
+  - Si publica el Worker, no comparta las credenciales de Cloudflare.
