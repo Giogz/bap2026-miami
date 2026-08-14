@@ -1,0 +1,79 @@
+COMO SUBIR EL SITIO — PASO A PASO
+==================================
+
+IMPORTANTE: el sitio publicado hoy es una version ANTIGUA, anterior
+al video. Por eso el video no se reproduce: no esta ahi. Hay que
+subir TODO el contenido de este ZIP, no solo el index.html.
+
+
+LO MAS IMPORTANTE
+-----------------
+Suba las CARPETAS COMPLETAS. Estas cuatro son nuevas y sin ellas la
+pagina se vera rota o sin video:
+
+   video/    <-- EL VIDEO DEL HERO (sin esto no hay video)
+   lib/      <-- el mapa (Leaflet)
+   fonts/    <-- las tipografias
+   img/      <-- todas las imagenes
+
+
+ESTRUCTURA FINAL EN GITHUB (repositorio bap2026-miami)
+-------------------------------------------------------
+   bap2026-miami/
+   ├── index.html
+   ├── index-LEGIBLE.html      (copia editable, opcional)
+   ├── favicon.ico
+   ├── site.webmanifest
+   ├── .nojekyll
+   ├── img/      (20 archivos)
+   ├── video/    (3 archivos .mp4)
+   ├── lib/      (leaflet.js, leaflet.css, images/)
+   ├── fonts/    (3 archivos .woff2)
+   └── worker/   (opcional, no afecta al sitio)
+
+
+COMO SUBIRLO POR LA WEB DE GITHUB
+----------------------------------
+1. Entre a github.com/giogz/bap2026-miami
+2. BORRE los archivos viejos: img/hero.jpg y cualquier carpeta "site"
+   que haya quedado de subidas anteriores.
+3. Presione "Add file" > "Upload files".
+4. Arrastre TODAS las carpetas y archivos del ZIP a la vez.
+   (Arrastrar carpetas completas funciona en Chrome y Edge.)
+5. Presione "Commit changes".
+6. Espere 1 o 2 minutos: GitHub Pages tarda en actualizar.
+
+
+COMPROBAR QUE EL VIDEO SUBIO BIEN
+----------------------------------
+Abra esta direccion en el navegador:
+
+   https://giogz.github.io/bap2026-miami/video/hero-720.mp4
+
+  - Si se ve o se descarga un video -> subio correctamente.
+  - Si sale "404 File not found" -> la carpeta video/ NO se subio.
+
+Luego abra el sitio con Ctrl+F5 (o Cmd+Shift+R en Mac) para forzar
+que el navegador descargue la version nueva y no la guardada.
+
+
+SI AUN ASI NO SE REPRODUCE
+---------------------------
+El video usa unicamente atributos de HTML (autoplay muted loop
+playsinline), que es el metodo estandar y funciona hasta con
+JavaScript desactivado. Si no arranca, la causa es una de estas:
+
+  1. La carpeta video/ no se subio  -> revise el enlace de arriba.
+  2. El navegador guardo la version vieja -> Ctrl+F5.
+  3. iPhone en Modo de Bajo Consumo -> iOS bloquea TODOS los videos
+     automaticos. Se vera la foto y arrancara al tocar la pantalla.
+     No hay solucion tecnica; es una decision de Apple.
+  4. Ahorro de datos activado en Chrome Android -> igual que el punto 3.
+
+Archivos de video incluidos:
+   video/hero-720.mp4    1.4 MB   <-- el que usa el sitio
+   video/hero-1080.mp4   3.6 MB   (mayor calidad, opcional)
+   video/hero-480.mp4    0.8 MB   (mas liviano, opcional)
+
+Para cambiar la calidad, edite esta linea en index.html:
+   <source src="video/hero-720.mp4" type="video/mp4">
